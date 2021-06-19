@@ -61,8 +61,6 @@
     background-color: #b2bec3;
     border-radius: 10px;
     display: flex;
-    /* justify-content: space-evenly; 
-    align-items: center; */
 }
 
 .ticket-actions div {
@@ -139,7 +137,6 @@
 }
 
 .ticket {
-    /* background: aquamarine; */
     height: 150px;
     width: 250px;
     border: 1px solid lightgray;
@@ -148,7 +145,6 @@
 
 .ticket-header {
     height: 10%;
-    /* background: red; */
 }
 
 .ticket-content {
@@ -166,12 +162,6 @@
     justify-content: space-between;
 }
 
-.ticket-id {
-}
-
-.ticket-delete {
-}
-
 .ticket-value {
     height: 80%;
     width: 100%;
@@ -186,3 +176,26 @@
     opacity: 1;
     transform: scale(1.2);
 }
+
+.search-box {
+    height: 35%;
+    width: 25%;
+    background: white;
+    border-radius: 15px;
+    outline: none;
+    font-size: 20px;
+    padding: 2px;
+    padding-left: 10px;
+}
+
+.search-content-area{
+    height: 90%;
+    width: 90%;
+    padding: 1px;
+    opacity: 1;
+    outline : none ;    
+    border: none;
+    font-size: 20px;
+}
+
+

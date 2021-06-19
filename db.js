@@ -1,7 +1,7 @@
 let myDB = window.localStorage ;
 let ticketsContainer = document.querySelector(".tickets-container");
 let allFilterClasses = ["red" , "blue" , "green" , "yellow" , "black"] ;
-
+let lockbtnisPressed = true ;
 function loadTickets()
 {
     let allTickets = myDB.getItem("allTickets") ;
@@ -38,17 +38,14 @@ function loadSelectedTickets(filter)
 
 function saveTicketToDB(ticketInfoObject)
 {
-    // let allTickets = [ticketInfoObject] ;
     let allTickets = myDB.getItem("allTickets") ;
     if(allTickets)
     {
-        // already all tickets are present 
         allTickets = JSON.parse(allTickets) ;
         allTickets.push(ticketInfoObject) ;
         myDB.setItem("allTickets" , JSON.stringify(allTickets)) ;
     }
     else{
-        // no all Tickets key found
         let allTickets = [ticketInfoObject] ;
         myDB.setItem("allTickets" , JSON.stringify(allTickets)) ;
 
@@ -65,7 +62,10 @@ function appendTicket(ticketInfoObject)
         <div class="ticket-content">
             <div class="ticket-info">
                 <div class="ticket-id">${ticketId}</div>
-                <div class="ticket-delete fas fa-trash"></div>
+                
+                <div class="ticket-lock fas fa-unlock"></div>
+                <div class="ticket-delete fas fa-trash">
+                </div>
             </div>
             <div class="ticket-value">
                 ${ticketValue} 
@@ -74,10 +74,8 @@ function appendTicket(ticketInfoObject)
 
     
     let ticketHeader = ticketDiv.querySelector(".ticket-header") ;
-    // console.log(ticketHeader) ;
 
     ticketHeader.addEventListener("click" , function(e){
-        // console.log(e) ;
         let currentFilter = e.target.classList[1] ;
         let indexOfCurrentFilter = allFilterClasses.indexOf(currentFilter) ;
         let newIndex = (indexOfCurrentFilter + 1) % allFilterClasses.length ;
@@ -97,14 +95,40 @@ function appendTicket(ticketInfoObject)
     })
     
     let deleteTicketBtn = ticketDiv.querySelector(".ticket-delete") ;
+    let lockBtn = ticketDiv.querySelector(".ticket-lock") ;
+    lockBtn.addEventListener("click" , function(e){
 
-    // console.log(deleteTicketBtn) ;
+        for(let i = 0 ; i < e.target.classList.length ; i++)
+        {
+            if(i == 2)
+            {
+                if(e.target.classList[2] == "fa-unlock")
+                {
+                    let lockClass = e.target.classList[2] ;
+                    let lockadd = "fa-lock" ;
+                    e.target.classList.remove(lockClass);
+                    e.target.classList.add(lockadd) ;
+                    lockbtnisPressed = false ;
+                }
+                else if(e.target.classList[2] == "fa-lock"){
+                    let lockClass = e.target.classList[2] ;
+                    let lockremove = "fa-unlock" ;
+                    e.target.classList.remove(lockClass);
+                    e.target.classList.add(lockremove) ;
+                    lockbtnisPressed = true ;
+                }
+            }
+        }
+    })
     deleteTicketBtn.addEventListener("click" , function(e){
-    // console.log(e) ;
     console.log(ticketId) ;
-    ticketDiv.remove() ; // remove data form ui only
+    
 
-    deleteTicketFromDb(ticketId) ;
+    if(lockbtnisPressed)
+    {
+        ticketDiv.remove() ;
+        deleteTicketFromDb(ticketId) ;
+    }
 
     })
 
@@ -115,7 +139,6 @@ function appendTicket(ticketInfoObject)
 function deleteTicketFromDb(ticketId)
 {
     let allTickets = JSON.parse(myDB.getItem("allTickets")) ;
-    // [{} , {} , {} , {} , {} ]
     let updateTickets = allTickets.filter(function(ticketsObject){
         if(ticketsObject.ticketId == ticketId)
         {

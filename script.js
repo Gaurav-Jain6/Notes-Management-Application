@@ -9,18 +9,6 @@ for(let i = 0 ; i < allFilters.length ; i++)
     allFilters[i].addEventListener("click" , selectFilter) ;
 }
 
-// function selectFilter(e)
-// {
-//     let filterSelected = e.target.classList[1] ;
-//     console.log(filterSelected) ;
-//     if(ticketsContainer.classList.length > 1)
-//     {
-//         ticketsContainer.classList.remove(ticketsContainer.classList[1]) ;
-//     }
-//     ticketsContainer.classList.add(filterSelected) ;
-//     console.log(e) ;
-// }
-
 openModal.addEventListener("click" , openTicketModal) ;
 closeModal.addEventListener("click" , closeTicketModal) ;
 
@@ -43,11 +31,8 @@ function selectFilter(e)
         e.target.classList.add("active-filter") ;
         ticketsContainer.innerHTML = "";
         let filterClicked = e.target.classList[1] ;
-        // console.log(filterClicked) ;
         loadSelectedTickets(filterClicked) ;
     }
-
-    // console.log(e) ;
 }
 
 
@@ -57,8 +42,6 @@ function openTicketModal(e)
     {
         return ;
     }
-    // console.log(e) ;
-
     let ticketModal = document.createElement("div") ;
     ticketModal.classList.add("ticket-modal") ;
     ticketModal.innerHTML=`<div class="ticket-text" contentEditable="true" spellcheck="false">Enter Your Text!!!</div>
@@ -87,7 +70,6 @@ function openTicketModal(e)
             e.target.classList.add("selected-filter") ;
         })
     }
-
 }
 
 function closeTicketModal(e)
@@ -107,8 +89,6 @@ function handleKeyPress(e)
     {
 
         let filterSelected = document.querySelector(".selected-filter").classList[1] ;
-        // console.log(filterSelected) ;
-
         let ticketId = uuid() ;
         let ticketInfoObject = {
             ticketFilter: filterSelected , 
@@ -117,9 +97,7 @@ function handleKeyPress(e)
         } ;
         appendTicket(ticketInfoObject) ;
         closeModal.click();
-        saveTicketToDB(ticketInfoObject) ;
-        // console.log(e);
-        
+        saveTicketToDB(ticketInfoObject) ;        
     }
     if(!isTextTyped)
     {
